@@ -206,6 +206,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         });
       });
 
+      suite('ripple property propagation', function() {
+        var tabs;
+
+        setup(function () {
+          tabs = fixture('basic');
+        });
+
+        test('ripple-initial-opacity attribute propagates to all descendant tabs', function() {
+          tabs.rippleInitialOpacity = 0.5;
+          Array.prototype.slice.apply(tabs.querySelectorAll('paper-tab')).forEach(function(tab) {
+            assert.equal(tab.rippleInitialOpacity, 0.5);
+          });
+
+          tabs.rippleInitialOpacity = 0.25;
+          Array.prototype.slice.apply(tabs.querySelectorAll('paper-tab')).forEach(function(tab) {
+            assert.equal(tab.rippleInitialOpacity, 0.25);
+          });
+        });
+
+        test('ripple-opacity-decay-velocity attribute propagates to all descendant tabs', function() {
+          tabs.rippleOpacityDecayVelocity = 0.5;
+          Array.prototype.slice.apply(tabs.querySelectorAll('paper-tab')).forEach(function(tab) {
+            assert.equal(tab.rippleOpacityDecayVelocity, 0.5);
+          });
+
+          tabs.rippleOpacityDecayVelocity = 0.25;
+          Array.prototype.slice.apply(tabs.querySelectorAll('paper-tab')).forEach(function(tab) {
+            assert.equal(tab.rippleOpacityDecayVelocity, 0.25);
+          });
+        });
+      });
+
     </script>
 
   </body>

@@ -224,6 +224,24 @@ Custom property | Description | Default
         },
 
         /**
+         * When this property is changed, all tabs have their
+         * `ripple-initial-opacity` changed to the new value as well.
+         */
+        rippleInitialOpacity: {
+          type: Number,
+          value: 0.95
+        },
+
+        /**
+         * When this property is changed, all tabs have their
+         * `ripple-opacity-decay-velocity` changed to the new value as well.
+         */
+        rippleOpacityDecayVelocity: {
+          type: Number,
+          value: 0.98
+        },
+
+        /**
          * If true, the bottom bar to indicate the selected tab will not be shown.
          */
         noBar: {
@@ -319,6 +337,11 @@ Custom property | Description | Default
         'iron-deselect': '_onIronDeselect'
       },
 
+      observers: [
+        '_rippleInitialOpacityChanged(rippleInitialOpacity, items.*)',
+        '_rippleOpacityDecayVelocityChanged(rippleOpacityDecayVelocity, items.*)',
+      ],
+
       created: function() {
         this._holdJob = null;
       },
@@ -338,6 +361,22 @@ Custom property | Description | Default
 
       _removeNoinkAttribute: function(element) {
         element.removeAttribute('noink');
+      },
+
+      _rippleInitialOpacityChanged: function(rippleInitialOpacity) {
+        this.items.forEach(function(item) {
+          if (item.tagName.toLowerCase() === 'paper-tab') {
+            item.rippleInitialOpacity = rippleInitialOpacity;
+          }
+        });
+      },
+
+      _rippleOpacityDecayVelocityChanged: function(rippleOpacityDecayVelocity) {
+        this.items.forEach(function(item) {
+          if (item.tagName.toLowerCase() === 'paper-tab') {
+            item.rippleOpacityDecayVelocity = rippleOpacityDecayVelocity;
+          }
+        });
       },
 
       _computeScrollButtonClass: function(hideThisButton, scrollable, hideScrollButtons) {

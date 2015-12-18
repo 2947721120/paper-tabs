@@ -112,18 +112,36 @@ Custom property | Description | Default
         Polymer.PaperRippleBehavior
       ],
 
+      properties: {
+        /**
+         * A proxy to the `initial-opacity` property of the internal
+         * `paper-ripple` element.
+         */
+        rippleInitialOpacity: {
+          type: Number,
+          value: 0.95
+        },
+
+        /**
+         * A proxy to the `opacity-decay-velocity` property of the internal
+         * `paper-ripple` element.
+         */
+        rippleOpacityDecayVelocity: {
+          type: Number,
+          value: 0.98
+        }
+      },
+
       hostAttributes: {
         role: 'tab'
       },
 
+      observers: [
+        '_ripplePropertyChanged(rippleInitialOpacity, rippleOpacityDecayVelocity)'
+      ],
+
       listeners: {
         down: '_updateNoink'
-      },
-
-      ready: function() {
-        var ripple = this.getRipple();
-        ripple.initialOpacity = 0.95;
-        ripple.opacityDecayVelocity = 0.98;
       },
 
       attached: function() {
@@ -137,6 +155,12 @@ Custom property | Description | Default
 
       _updateNoink: function() {
         this.noink = !!this.noink || !!this._parentNoink;
+      },
+
+      _ripplePropertyChanged: function() {
+        var ripple = this.getRipple();
+        ripple.initialOpacity = this.rippleInitialOpacity;
+        ripple.opacityDecayVelocity = this.rippleOpacityDecayVelocity;
       }
     });
   </script>
